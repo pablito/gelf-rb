@@ -43,22 +43,38 @@ Gem::Specification.new do |s|
   s.rubygems_version = "1.8.15"
   s.summary = "Library to send GELF messages to Graylog2 logging server."
 
+  dev_dependencies = if RUBY_VERSION == '1.8.6'
+    [
+        [%q<shoulda>, ["~> 2.11.0"]],
+        [%q<mocha>, ["~> 0.9.0"]]
+    ]
+  else
+    [
+        [%q<shoulda>, [">= 0"]],
+        [%q<mocha>, [">= 0"]]
+    ]
+  end
+
+
   if s.respond_to? :specification_version then
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<json>, [">= 0"])
-      s.add_development_dependency(%q<shoulda>, [">= 0"])
-      s.add_development_dependency(%q<mocha>, [">= 0"])
+      dev_dependencies.each do |dep|
+        s.add_development_dependency(dep.first, dep.last)
+      end
     else
       s.add_dependency(%q<json>, [">= 0"])
-      s.add_dependency(%q<shoulda>, [">= 0"])
-      s.add_dependency(%q<mocha>, [">= 0"])
+      dev_dependencies.each do |dep|
+        s.add_dependency(dep.first, dep.last)
+      end
     end
   else
     s.add_dependency(%q<json>, [">= 0"])
-    s.add_dependency(%q<shoulda>, [">= 0"])
-    s.add_dependency(%q<mocha>, [">= 0"])
+    dev_dependencies.each do |dep|
+      s.add_dependency(dep.first, dep.last)
+    end
   end
 end
 
